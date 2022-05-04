@@ -13,7 +13,7 @@ Write code to:-
 > use weather
 
 - create a capped collection named `temperature` with maximum of 3 documents and try inserting more than 3 to see the result.
-> db.createCollection("temperature",{capped:true,size:10000,max:1000})
+> db.createCollection("temperature",{capped:true,size:10000,max:3})
 
 > db.temperature.insert({title : 'heat'})
 
