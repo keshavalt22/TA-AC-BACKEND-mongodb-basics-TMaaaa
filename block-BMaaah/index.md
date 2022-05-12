@@ -25,7 +25,7 @@ db.createCollection('articles')
 ```js
 
 
-db.blog.insertMany([
+db.articles.insertMany([
   {
   title: "author1",
   createdAt:12/03/1985,
@@ -76,54 +76,54 @@ db.blog.insertMany([
 
 4. Find all the articles using `db.COLLECTION_NAME.find()`
 ```js
-db.blog.find().pretty()
+db.articles.find({}).pretty()
 ```
 5. Find a document using \_id field.
 ```js
-db.blog.findOne({"_id" : ObjectId("627a50b9d58ed43712f1224f")})
+db.articles.findOne({"_id" : ObjectId("627a50b9d58ed43712f1224f")})
 ```
 6. 1. Find documents using title
 ```js
-db.blog.find({title : "author3"})
+db.articles.find({title : "author3"})
 ```
 7. 2. Find documents using author's name field.
 ```js
-db.blog.find({'author.name' : 'author3'})
+db.articles.find({'author.name' : 'author3'})
 ```
 8. Find document using a specific tag.
 ```js
-db.blog.find({tags : 'java'})
+db.articles.find({tags : 'java'})
 ```
 9. Update title of a document using its \_id field.
 ```js
-db.blog.update({ _id : ObjectId("627a50b9d58ed43712f1224f")}, {$set: {title: "author first"}})
+db.articles.update({ _id : ObjectId("627a50b9d58ed43712f1224f")}, {$set: {title: "author first"}})
 ```
 10. Update a author's name using article's title.
 ```js
-db.blog.update({title : "author2"}, {$set: {'author.name': 'author second'}})
+db.articles.update({title : "author2"}, {$set: {'author.name': 'author second'}})
 ```
 11. rename details field to description from all articles in articles collection.
 ```js
-db.blog.updateMany({},{ $rename: { "details": "description"}})
+db.articles.updateMany({},{ $rename: { "details": "description"}})
 ```
 12. Add additional tag in a specific document.
 ```js
-db.blog.update({title: "author3"}, {$push: {tags: "html"}})
+db.articles.update({title: "author3"}, {$push: {tags: "html"}})
 ```
 13. Update an article's title using $set and without $set.
 ```js
-
+db.articles.update({title: "author3"}, {$set: {title: "author third"}})
 ```
 - Write the differences here ?
 ```js
 ```
 13. find an article using title and increment it's auhtor's age by 5.
 ```js
-db.blog.update({title: "author3"}, {$set: {age: 30}})
+db.articles.update({title: "author3"}, {$inc: {'author.age': 5}})
 ```
 14. Delete a document using \_id field with `db.COLLECTION_NAME.remove()`.
 ```js
-db.blog.remove({_id : ObjectId("627a50b9d58ed43712f12251")})
+db.articles.remove({_id : ObjectId("627a50b9d58ed43712f12251")})
 
 ```
 
@@ -245,7 +245,7 @@ Insert above data into database to perform below queries:-
 
 - Find all males who play cricket.
 ```js
-db.users.find({gender: {$ne: "Female"}})
+db.users.find({gender: 'male', sports: 'cricket'})
 ```
 - Update user with extra golf field in sports array whose name is "Steve Ortega".
 ```js
@@ -253,10 +253,10 @@ db.users.update({name: "Steve Ortega"}, {$push: {sports: "golf"}})
 ```
 - Find all users who play either 'football' or 'cricket'.
 ```js
-db.users.find({$or: [{sports: 'football'}, {sports: 'football'}]})
+db.users.find({sports: {$in: ["football","cricket"]}})
 
 ```
 - Find all users whose name includes 'ri' in their name.
 ```js
-db.users.find({name: {$all: 'ri'}})
+db.users.find({name: /ri/i})
 ```
